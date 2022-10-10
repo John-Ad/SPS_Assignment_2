@@ -3,7 +3,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
         "outDir": "dist",
-        "target": "esnext",
+        "target": "es2020",
         "esModuleInterop": true,
         "moduleResolution": "node",
         "module": "commonjs",
