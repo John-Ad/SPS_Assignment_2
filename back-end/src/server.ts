@@ -66,6 +66,9 @@ app.post("/staff/:staffId/courses", courseController.addCourseAllocationForStaff
 //----   DELETE STAFF COURSE   ----
 app.delete("/staff/:staffId/courses/:courseId", courseController.deleteCourseAllocationForStaff);
 
+//----   APPROVE STAFF COURSE   ----
+app.post("/staff/:staffId/courses/approve", courseController.ApproveCourseAllocationForStaff);
+
 
 //-------------------------------
 //      EXPORT SERVER     

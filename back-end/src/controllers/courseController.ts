@@ -1,6 +1,6 @@
 
 import { Request, Response, NextFunction } from 'express';
-import { IAddStaffCourse } from '../interfaces';
+import { IAddStaffCourse, IResponse } from '../interfaces';
 import { Course } from '../models/Course';
 import { Staff_Course } from '../models/Staff_Course';
 import { User } from '../models/User';
@@ -30,13 +30,16 @@ export default class CourseController {
      * @description returns a list of all courses 
      */
     getAllCourses = async (req: Request, res: Response) => {
+        let response: IResponse = { errorMessage: "", data: "" };
         try {
             let courses = await this.dbContext.Course.findAll();
 
-            return res.status(200).json(courses);
+            response.data = courses;
+            return res.status(200).json(response);
         } catch (err) {
             console.log((err as Error).message);
-            return res.status(500).json((err as Error).message);
+            response.errorMessage = (err as Error).message;
+            return res.status(500).json(response);
         }
     }
 
@@ -50,6 +53,7 @@ export default class CourseController {
      */
     getCourseAllocationsForStaff = async (req: Request, res: Response) => {
         let staffId = req.params.staffId;
+        let response: IResponse = { errorMessage: "", data: "" };
         try {
             let courses = await this.dbContext.Staff_Course.findAll({
                 where: {
@@ -60,11 +64,12 @@ export default class CourseController {
                 }
             });
 
-            return res.status(200).json(courses);
+            response.data = courses;
+            return res.status(200).json(response);
         } catch (err) {
             console.log((err as Error).message);
-            console.log((err as Error).stack);
-            return res.status(500).json((err as Error).message);
+            response.errorMessage = (err as Error).message;
+            return res.status(500).json(response);
         }
     }
 
@@ -77,18 +82,19 @@ export default class CourseController {
      */
     addCourseAllocationForStaff = async (req: Request, res: Response) => {
         let data: IAddStaffCourse = req.body;
-        console.log(data);
 
+        let response: IResponse = { errorMessage: "", data: "" };
         try {
             const allocation = await this.dbContext.Staff_Course.create({
                 StaffId: data.staffId,
                 CourseId: data.courseId
             });
 
-            return res.status(200).json("ok");
+            return res.status(200).json(response);
         } catch (err) {
             console.log((err as Error).message);
-            return res.status(500).json((err as Error).message);
+            response.errorMessage = (err as Error).message;
+            return res.status(500).json(response);
         }
     }
 
@@ -103,7 +109,7 @@ export default class CourseController {
         let staffId = req.params.staffId;
         let courseId = req.params.courseId;
 
-        console.log("here");
+        let response: IResponse = { errorMessage: "", data: "" };
 
         try {
             const allocation = await this.dbContext.Staff_Course.destroy({
@@ -113,10 +119,48 @@ export default class CourseController {
                 }
             })
 
-            return res.status(200).json("ok");
+            return res.status(200).json(response);
         } catch (err) {
             console.log((err as Error).message);
-            return res.status(500);
+            response.errorMessage = (err as Error).message;
+            return res.status(500).json(response);
+        }
+    }
+
+    /**
+     * Approve course allocation  
+     *
+     * @description sets status of course allocation to approved 
+     * @param staffId id of staff member
+     * @param courseId id of course to allocate
+     */
+    ApproveCourseAllocationForStaff = async (req: Request, res: Response) => {
+        let data: IAddStaffCourse = req.body;
+        console.log(data);
+
+        let response: IResponse = { errorMessage: "", data: "" };
+
+        try {
+            const allocation = await this.dbContext.Staff_Course.findOne({
+                where: {
+                    StaffId: data.staffId,
+                    CourseId: data.courseId
+                }
+            });
+
+            if (!allocation) {
+                response.errorMessage = "Not found"
+                return res.status(404).json(response);
+            }
+
+            allocation.IsApproved = false;
+            await allocation.save();
+
+            return res.status(200).json(response);
+        } catch (err) {
+            console.log((err as Error).message);
+            response.errorMessage = (err as Error).message;
+            return res.status(500).json(response);
         }
     }
 }

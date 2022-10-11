@@ -49,6 +49,10 @@ const initDb = async () => {
             CourseId: 1,
             StaffId: 1
         });
+        await models.Staff_Course.create({
+            CourseId: 3,
+            StaffId: 1
+        });
     } catch (err) {
         console.log((err as Error).message);
         console.log((err as Error).name);
@@ -82,6 +86,15 @@ describe("course allocation integration tests", () => {
 
     test("Delete staff course valid", async () => {
         let result = await request.delete("/staff/1/courses/1");
+        expect(result.status).toBe(200);
+    });
+
+    test("Approve staff course valid", async () => {
+        let data: IAddStaffCourse = {
+            courseId: 3,
+            staffId: 1
+        }
+        let result = await request.post("/staff/1/courses/approve").send(data);
         expect(result.status).toBe(200);
     });
 });
