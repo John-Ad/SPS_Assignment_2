@@ -30,7 +30,7 @@ export class User_Type extends Model<User_TypeAttributes, User_TypeCreationAttri
   countUsers!: Sequelize.HasManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof User_Type {
-    return sequelize.define('User_Type', {
+    return User_Type.init({
     Id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
@@ -42,6 +42,7 @@ export class User_Type extends Model<User_TypeAttributes, User_TypeCreationAttri
       allowNull: false
     }
   }, {
+    sequelize,
     tableName: 'User_Type',
     timestamps: false,
     indexes: [
@@ -54,6 +55,6 @@ export class User_Type extends Model<User_TypeAttributes, User_TypeCreationAttri
         ]
       },
     ]
-  }) as typeof User_Type;
+  });
   }
 }

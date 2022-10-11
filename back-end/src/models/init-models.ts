@@ -32,6 +32,12 @@ export function initModels(sequelize: Sequelize) {
   const User = _User.initModel(sequelize);
   const User_Type = _User_Type.initModel(sequelize);
 
+  Course.belongsToMany(User, { as: 'StaffId_Users', through: Staff_Course, foreignKey: "CourseId", otherKey: "StaffId" });
+  User.belongsToMany(Course, { as: 'CourseId_Courses', through: Staff_Course, foreignKey: "StaffId", otherKey: "CourseId" });
+  Staff_Course.belongsTo(Course, { as: "Course", foreignKey: "CourseId"});
+  Course.hasMany(Staff_Course, { as: "Staff_Courses", foreignKey: "CourseId"});
+  Staff_Course.belongsTo(User, { as: "Staff", foreignKey: "StaffId"});
+  User.hasMany(Staff_Course, { as: "Staff_Courses", foreignKey: "StaffId"});
   User.belongsTo(User_Type, { as: "Type", foreignKey: "Type_Id"});
   User_Type.hasMany(User, { as: "Users", foreignKey: "Type_Id"});
 

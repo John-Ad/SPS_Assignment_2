@@ -1,5 +1,6 @@
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
+import CourseController from './controllers/courseController';
 import connection from './database';
 import { initModels } from './models/init-models';
 import { User_Type } from './models/User_Type';
@@ -24,6 +25,8 @@ connection.authenticate().then(() => { console.log("connection active") }).catch
 connection.sync().then(() => { console.log("connection synced") });
 let models = initModels(connection);
 
+const courseController = new CourseController(models);
+
 //-------------------------------
 //      TEST ENDPOINT     
 //-------------------------------
@@ -46,6 +49,22 @@ app.get("/users/types", async (req, res) => {
         return res.status(500);
     }
 });
+
+//-------------------------------------------
+//      COURSE ENDPOINTS      
+//-------------------------------------------
+
+//----   GET ALL COURSES   ----
+app.get("/courses/", courseController.getAllCourses);
+
+//----   GET STAFF COURSES   ----
+app.get("/staff/:staffId/courses", courseController.getCourseAllocationsForStaff);
+
+//----   ADD STAFF COURSE   ----
+app.post("/staff/:staffId/courses", courseController.addCourseAllocationForStaff);
+
+//----   DELETE STAFF COURSE   ----
+app.delete("/staff/:staffId/courses/:courseId", courseController.deleteCourseAllocationForStaff);
 
 
 //-------------------------------

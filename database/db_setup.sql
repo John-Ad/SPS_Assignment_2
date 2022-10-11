@@ -19,7 +19,7 @@ create table User(
     First_Name varchar(100) not null,
     Last_Name varchar(100) not null,
 
-    foreign key (Type_Id) references User_Type(Id)
+    foreign key (Type_Id) references User_Type(Id) on delete cascade
 );
 
 create table Course(
@@ -32,6 +32,9 @@ create table Staff_Course(
     CourseId int not null,
 
     IsApproved bit not null default 0,
+
+    foreign key (StaffId) references User(Id) on delete cascade,
+    foreign key (CourseId) references Course(Id) on delete cascade,
 
     primary key (StaffId, CourseId)
 );
