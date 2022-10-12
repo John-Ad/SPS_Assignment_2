@@ -1,12 +1,14 @@
 import { GlobalContext } from "../contexts/globalContext";
 import { Route, Routes, useNavigate } from "react-router-dom";
-import AdminHome from "./dean-home/adminHome";
-import "./adminBase.css";
+import DeanHome from "./dean-home/deanHome";
+import "./base.css";
 import { AppBar, Box, Button, CssBaseline, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { CalendarMonth, Home, Menu, People, Work } from "@mui/icons-material";
 import StaffCourses from "./staff-courses/staffCourses";
-import UsersPage from "./admin-users-page/adminUsersPage";
+import StaffBase from "./staffBase";
+import { UserType } from "../interfaces/general_interfaces";
+import { BookHalf } from "react-bootstrap-icons";
 
 
 // //----   STYLES   ----
@@ -23,7 +25,7 @@ const listItemIconStyle = {
 } as const;
 
 
-let AdminBase = () => {
+let Base = () => {
 
     const navigate = useNavigate();
 
@@ -71,6 +73,22 @@ let AdminBase = () => {
                                 Workload Sheet Generator
                             </Typography>
 
+                            <Typography variant="h6" component="div" sx={{ flexGrow: 0.5, display: "flex", justifyContent: "start" }}>
+                                Switch user
+                                <div>
+                                    <Button style={{ backgroundColor: "#8888FF", marginLeft: "10px" }} onClick={() => {
+                                        context.setUserId(10);
+                                        context.setUserType(UserType.STAFF);
+                                        navigate("/staff/")
+                                    }} color="inherit">Staff</Button>
+                                    <Button style={{ backgroundColor: "#8888FF", marginLeft: "10px" }} onClick={() => {
+                                        context.setUserId(11);
+                                        context.setUserType(UserType.DEAN);
+                                        navigate("/dean/")
+                                    }} color="inherit">Dean</Button>
+                                </div>
+                            </Typography>
+
                             <Button onClick={() => {
                                 context.logout();
                                 navigate("/login");
@@ -99,33 +117,18 @@ let AdminBase = () => {
                                             <ListItemText primary={"Home"} sx={{ ml: 3 }} />
                                         }
                                     </ListItemButton>
-                                    <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("users")}>
-                                        <ListItemIcon sx={listItemIconStyle}>
-                                            <People />
-                                        </ListItemIcon>
-                                        {
-                                            drawerOpen &&
-                                            <ListItemText primary={"Users"} sx={{ ml: 3 }} />
-                                        }
-                                    </ListItemButton>
-                                    <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("appointments")}>
-                                        <ListItemIcon sx={listItemIconStyle}>
-                                            <CalendarMonth />
-                                        </ListItemIcon>
-                                        {
-                                            drawerOpen &&
-                                            <ListItemText primary={"Appointments"} sx={{ ml: 3 }} />
-                                        }
-                                    </ListItemButton>
-                                    <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("specialties")}>
-                                        <ListItemIcon sx={listItemIconStyle}>
-                                            <Work />
-                                        </ListItemIcon>
-                                        {
-                                            drawerOpen &&
-                                            <ListItemText primary={"Specialties"} sx={{ ml: 3 }} />
-                                        }
-                                    </ListItemButton>
+                                    {
+                                        context.userType === UserType.STAFF &&
+                                        <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("staff/courses")}>
+                                            <ListItemIcon sx={listItemIconStyle}>
+                                                <BookHalf />
+                                            </ListItemIcon>
+                                            {
+                                                drawerOpen &&
+                                                <ListItemText primary={"Courses"} sx={{ ml: 3 }} />
+                                            }
+                                        </ListItemButton>
+                                    }
                                 </ListItem>
                             </List>
                         </Box>
@@ -144,10 +147,10 @@ let AdminBase = () => {
                         <Toolbar />
 
                         <Routes>
-                            <Route path="" element={<AdminHome />} />
+                            <Route path="" element={<DeanHome />} />
 
-                            <Route path="staff/*" element={<UsersPage context={context} />} />
-                            <Route path="dean/*" element={<StaffCourses context={context} />} />
+                            <Route path="staff/*" element={<StaffBase />} />
+                            <Route path="dean/*" element={<div></div>} />
                         </Routes>
                     </Box>
                 </Box>
@@ -157,5 +160,5 @@ let AdminBase = () => {
     );
 }
 
-export default AdminBase;
+export default Base;
 

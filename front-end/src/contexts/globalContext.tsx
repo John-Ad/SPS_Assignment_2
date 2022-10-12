@@ -5,7 +5,7 @@
 
 import React, { createContext, useState, FC, useEffect } from "react";
 import { IGlobalContext, IResponse, IUser, UserType } from "../interfaces/general_interfaces";
-import { errorToast, notificationToast } from "../components/alert-components/toasts";
+import { errorToast } from "../components/alert-components/toasts";
 import { Connection } from "../connection";
 
 

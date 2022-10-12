@@ -144,7 +144,7 @@ const TableComponent = (props: IProps) => {
                                 (!props.loading && props.data.length === 0) &&
                                 <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                     <TableCell colSpan={props.headerValues.length} align="center">
-                                        <h5>Nothing to show</h5>
+                                        <h3>Nothing to show</h3>
                                     </TableCell>
                                 </TableRow>
                             }

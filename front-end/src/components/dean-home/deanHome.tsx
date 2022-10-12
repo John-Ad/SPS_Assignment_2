@@ -1,18 +1,17 @@
 import React from "react";
 import { GlobalContext } from "../../contexts/globalContext";
-import "./adminHome.css";
+import "./deanHome.css";
 
-let AdminHome = () => {
+let DeanHome = () => {
     return (
         <GlobalContext.Consumer>
             {context => (
                 <div className="admin-home">
-                    <h1>This is the admin home page!</h1>
-                    <p>{context.username}</p>
+                    <h1>This is the dean home page!</h1>
                 </div>
             )}
         </GlobalContext.Consumer>
     );
 }
 
-export default AdminHome;
+export default DeanHome;

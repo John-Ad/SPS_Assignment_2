@@ -41,3 +41,22 @@ create table Staff_Course(
 
 insert into User_Type(`Name`) values("Staff");
 insert into User_Type(`Name`) values("HoD");
+
+insert into User(
+    Id,
+    Type_Id,
+
+    Email,
+    `Password`,
+
+    First_Name,
+    Last_Name
+)
+values(
+    10,
+    1,
+    'staff@email.com',
+    'pw',
+    'Staff',
+    'Stafferson'
+);

@@ -4,8 +4,8 @@ import { ICourse, IGlobalContext, IResponse, IStaffCourse } from "../../interfac
 import AddEditComponent, { ISelect } from "../add-edit-component/AddEditComponent";
 import { errorToast, successToast } from "../alert-components/toasts";
 import Loading from "../loading-component/loading";
-import TableComponent, { TABLE_DATA_TYPE } from "../table-component/tableComponent";
-import "./specialtiesPage.css"
+import TableComponent, { IColumnData, TABLE_DATA_TYPE } from "../table-component/tableComponent";
+import "./staffCourses.css"
 
 interface INewInput {
     Course_Id: ISelect,
@@ -62,11 +62,12 @@ const StaffCourses = (props: IProps) => {
         })
     }
 
-    //----   GET ALL SPECIALTIES   ----
+    //----   GET STAFF COURSES   ----
     const getStaffCourses = async () => {
         setLoading(true);
-        let qry = GET_ENDPOINT.GET_STAFF_COURSES;
-        qry.replace("{id}", props.staffId.toString());
+        let qry = GET_ENDPOINT.GET_STAFF_COURSES.toString();
+        qry = qry.replace("{id}", props.staffId.toString());
+        console.log(qry);
         let result: IResponse = await Connection.getRequest(qry, "");
         setLoading(false);
         if (result.errorMessage.length > 0) {
@@ -74,6 +75,7 @@ const StaffCourses = (props: IProps) => {
             return;
         }
         setStaffCourses(result.data);
+        console.log(result.data);
     }
 
     //----   GET ALL COURSES   ----
@@ -91,16 +93,16 @@ const StaffCourses = (props: IProps) => {
 
 
     //----   ADD STAFF COURSE   ----
-    const addStaffCourse = async (data: number): Promise<boolean> => {
+    const addStaffCourse = async (data: INewInput): Promise<boolean> => {
 
-        if (data === 0) {
+        if (data.Course_Id.value === 0) {
             errorToast("Choose a course");
             return false;
         }
 
         let dataToSend = {
             staffId: props.staffId,
-            courseId: data
+            courseId: data.Course_Id.value
         }
 
         const result: IResponse = await Connection.postRequest(POST_ENDPOINT.ADD_STAFF_COURSE, dataToSend, {});
@@ -111,6 +113,7 @@ const StaffCourses = (props: IProps) => {
 
         successToast("success", true);
         getStaffCourses();
+        setAdding(false);
         return true;
     }
 
@@ -118,9 +121,10 @@ const StaffCourses = (props: IProps) => {
     //----   ON DELETE   ----
     const onDelete = async (data: IStaffCourse) => {
         setLoading(true);
-        let qry = DELETE_ENDPOINT.ADD_STAFF_COURSE;
-        qry.replace("{id}", props.staffId.toString());
-        qry.replace("{courseId}", data.CourseId.toString());
+        let qry = DELETE_ENDPOINT.DELETE_STAFF_COURSE.toString();
+        qry = qry.replace("{id}", props.staffId.toString());
+        qry = qry.replace("{courseId}", data.CourseId.toString());
+        console.log(qry);
         let result: IResponse = await Connection.delRequest(qry);
         setLoading(false);
         if (result.errorMessage.length > 0) {
@@ -134,18 +138,25 @@ const StaffCourses = (props: IProps) => {
         <>
             <div className="full-size">
                 <TableComponent
-                    title="Specialties"
+                    title="Courses"
                     context={props.context}
 
                     ids={[...staffCourses]}
-                    headerValues={["Nr", "Name"]}
+                    headerValues={["Id", "Name"]}
                     data={
                         staffCourses.map((course, index) => {
+                            let colVals: IColumnData[] = [
+                                { type: TABLE_DATA_TYPE.ID, value: course.Course.Id },
+                                { type: TABLE_DATA_TYPE.STRING, value: course.Course.Name },
+                            ];
+                            if (course.IsApproved) {
+                                colVals.push({ type: TABLE_DATA_TYPE.BADGE_SUCCESS, value: "approved" });
+                            } else {
+                                colVals.push({ type: TABLE_DATA_TYPE.BADGE_WARNING, value: "pending" });
+                            }
+
                             return {
-                                colValues: [
-                                    { type: TABLE_DATA_TYPE.ID, value: course.Course.Id },
-                                    { type: TABLE_DATA_TYPE.STRING, value: course.Course.Name },
-                                ]
+                                colValues: colVals
                             }
                         })
                     }

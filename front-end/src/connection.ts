@@ -16,7 +16,7 @@ export enum POST_ENDPOINT {
     APPROVE_STAFF_COURSE = "/staff/{id}/courses/approve",
 }
 export enum DELETE_ENDPOINT {
-    ADD_STAFF_COURSE = "/staff/{id}/courses/{courseId}",
+    DELETE_STAFF_COURSE = "/staff/{id}/courses/{courseId}",
 }
 
 export enum ERROR_MESSAGES {

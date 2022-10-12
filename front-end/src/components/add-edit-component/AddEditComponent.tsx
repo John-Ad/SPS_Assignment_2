@@ -105,7 +105,7 @@ const AddEditComponent = (props: IProps) => {
     }
 
     return (
-        <Modal show={true} onHide={() => props.cancel()}>
+        <Modal show={true} onHide={() => props.cancel()} style={{zIndex: 10000000}}>
             <Modal.Header closeButton>
                 <h4>{props.title}</h4>
             </Modal.Header>

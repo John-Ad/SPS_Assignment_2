@@ -13,7 +13,7 @@ const app: Express = express();
 
 app.use(function (inRequest: Request, inResponse: Response, inNext: NextFunction) {
     inResponse.header("Access-Control-Allow-Origin", "*");      //allows requests from any domain
-    inResponse.header("Access-Control-Allow-Methods", "GET,POST");   //allows these methods
+    inResponse.header("Access-Control-Allow-Methods", "*");   //allows these methods
     inResponse.header("Access-Control-Allow-Headers", "Origin,X-Requested-With,Content-Type,Accept,Authorization");   //allows these headers
     inNext();
 });

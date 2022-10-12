@@ -52,5 +52,6 @@ export interface ICourse {
 export interface IStaffCourse {
     CourseId: number,
     StaffId: number,
+    IsApproved: boolean,
     Course: ICourse
 }
