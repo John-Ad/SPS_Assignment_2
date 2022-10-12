@@ -9,6 +9,7 @@ import StaffCourses from "./staff-courses/staffCourses";
 import StaffBase from "./staffBase";
 import { UserType } from "../interfaces/general_interfaces";
 import { BookHalf } from "react-bootstrap-icons";
+import DeanBase from "./deanBase";
 
 
 // //----   STYLES   ----
@@ -108,7 +109,18 @@ let Base = () => {
                         <Box sx={{ overflow: 'auto' }}>
                             <List>
                                 <ListItem disablePadding sx={{ display: 'block' }}>
-                                    <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("")}>
+                                    <ListItemButton sx={listItemButtonStyle} onClick={() => {
+                                        if (context.userType === UserType.DEAN) {
+                                            navigateToPage("dean");
+                                            return;
+                                        }
+                                        if (context.userType === UserType.STAFF) {
+                                            navigateToPage("staff");
+                                            return;
+                                        }
+
+                                        navigateToPage("");
+                                    }}>
                                         <ListItemIcon sx={listItemIconStyle}>
                                             <Home />
                                         </ListItemIcon>
@@ -147,10 +159,10 @@ let Base = () => {
                         <Toolbar />
 
                         <Routes>
-                            <Route path="" element={<DeanHome />} />
+                            <Route path="" element={<h3>Page not found</h3>} />
 
                             <Route path="staff/*" element={<StaffBase />} />
-                            <Route path="dean/*" element={<div></div>} />
+                            <Route path="dean/*" element={<DeanBase />} />
                         </Routes>
                     </Box>
                 </Box>

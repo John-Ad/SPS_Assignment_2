@@ -1,1 +1,9 @@
-.admin-home {}
+.dean-dashboard-container {
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.dean-dashboard-card-small {
+    width: 45%;
+    margin-right: 30px;
+}

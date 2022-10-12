@@ -47,7 +47,6 @@ export default class CourseController {
      * Get course allocations for staff 
      *
      * @description returns a list of courses allocated to staff
-     * /staff/courses/:staffId
      * @param staffId id of staff member
      * @param approved type of course allocation to get, 1 for approved, 0 for unapproved
      */
@@ -128,6 +127,33 @@ export default class CourseController {
     }
 
     /**
+     * Get all unapproved course allocations  
+     *
+     * @description returns a list of unapproved course allocations
+     */
+    getUnapprovedCourseAllocations = async (req: Request, res: Response) => {
+        let response: IResponse = { errorMessage: "", data: "" };
+        try {
+            let courses = await this.dbContext.Staff_Course.findAll({
+                where: {
+                    IsApproved: false
+                },
+                include: [
+                    { model: Course, as: "Course" },
+                    { model: User, as: "Staff" },
+                ]
+            });
+
+            response.data = courses;
+            return res.status(200).json(response);
+        } catch (err) {
+            console.log((err as Error).message);
+            response.errorMessage = (err as Error).message;
+            return res.status(500).json(response);
+        }
+    }
+
+    /**
      * Approve course allocation  
      *
      * @description sets status of course allocation to approved 
@@ -163,4 +189,6 @@ export default class CourseController {
             return res.status(500).json(response);
         }
     }
+
+
 }

@@ -10,6 +10,7 @@ const BaseUrl = "http://localhost:8081";
 export enum GET_ENDPOINT {
     GET_STAFF_COURSES = "/staff/{id}/courses",
     GET_ALL_COURSES = "/courses/",
+    GET_ALL_UNAPPROVED_ALLOCATIONS = "/allocations/unapproved",
 }
 export enum POST_ENDPOINT {
     ADD_STAFF_COURSE = "/staff/{id}/courses",

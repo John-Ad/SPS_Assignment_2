@@ -69,6 +69,9 @@ app.delete("/staff/:staffId/courses/:courseId", courseController.deleteCourseAll
 //----   APPROVE STAFF COURSE   ----
 app.post("/staff/:staffId/courses/approve", courseController.ApproveCourseAllocationForStaff);
 
+//----   GET ALL UNAPPROVED STAFF COURSES   ----
+app.get("/allocations/unapproved", courseController.getUnapprovedCourseAllocations);
+
 
 //-------------------------------
 //      EXPORT SERVER     

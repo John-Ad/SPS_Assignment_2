@@ -97,4 +97,9 @@ describe("course allocation integration tests", () => {
         let result = await request.post("/staff/1/courses/approve").send(data);
         expect(result.status).toBe(200);
     });
+
+    test("Get all unapproved courses for staff valid", async () => {
+        let result = await request.get("/allocations/unapproved");
+        expect(result.status).toBe(200);
+    });
 });
