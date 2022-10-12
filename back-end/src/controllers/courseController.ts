@@ -179,7 +179,7 @@ export default class CourseController {
                 return res.status(404).json(response);
             }
 
-            allocation.IsApproved = false;
+            allocation.IsApproved = true;
             await allocation.save();
 
             return res.status(200).json(response);
