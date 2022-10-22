@@ -1,7 +1,11 @@
 import * as Sequelize from 'sequelize';
 import { DataTypes, Model, Optional } from 'sequelize';
+import type { Admin_Task, Admin_TaskId } from './Admin_Task';
 import type { Course, CourseId } from './Course';
+import type { Staff_Admin_Task, Staff_Admin_TaskId } from './Staff_Admin_Task';
+import type { Staff_Community_Outreach, Staff_Community_OutreachId } from './Staff_Community_Outreach';
 import type { Staff_Course, Staff_CourseId } from './Staff_Course';
+import type { Staff_Research, Staff_ResearchId } from './Staff_Research';
 import type { User_Type, User_TypeId } from './User_Type';
 
 export interface UserAttributes {
@@ -26,6 +30,18 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   First_Name!: string;
   Last_Name!: string;
 
+  // User belongsToMany Admin_Task via StaffId and AdminTaskId
+  AdminTaskId_Admin_Tasks!: Admin_Task[];
+  getAdminTaskId_Admin_Tasks!: Sequelize.BelongsToManyGetAssociationsMixin<Admin_Task>;
+  setAdminTaskId_Admin_Tasks!: Sequelize.BelongsToManySetAssociationsMixin<Admin_Task, Admin_TaskId>;
+  addAdminTaskId_Admin_Task!: Sequelize.BelongsToManyAddAssociationMixin<Admin_Task, Admin_TaskId>;
+  addAdminTaskId_Admin_Tasks!: Sequelize.BelongsToManyAddAssociationsMixin<Admin_Task, Admin_TaskId>;
+  createAdminTaskId_Admin_Task!: Sequelize.BelongsToManyCreateAssociationMixin<Admin_Task>;
+  removeAdminTaskId_Admin_Task!: Sequelize.BelongsToManyRemoveAssociationMixin<Admin_Task, Admin_TaskId>;
+  removeAdminTaskId_Admin_Tasks!: Sequelize.BelongsToManyRemoveAssociationsMixin<Admin_Task, Admin_TaskId>;
+  hasAdminTaskId_Admin_Task!: Sequelize.BelongsToManyHasAssociationMixin<Admin_Task, Admin_TaskId>;
+  hasAdminTaskId_Admin_Tasks!: Sequelize.BelongsToManyHasAssociationsMixin<Admin_Task, Admin_TaskId>;
+  countAdminTaskId_Admin_Tasks!: Sequelize.BelongsToManyCountAssociationsMixin;
   // User belongsToMany Course via StaffId and CourseId
   CourseId_Courses!: Course[];
   getCourseId_Courses!: Sequelize.BelongsToManyGetAssociationsMixin<Course>;
@@ -38,6 +54,30 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   hasCourseId_Course!: Sequelize.BelongsToManyHasAssociationMixin<Course, CourseId>;
   hasCourseId_Courses!: Sequelize.BelongsToManyHasAssociationsMixin<Course, CourseId>;
   countCourseId_Courses!: Sequelize.BelongsToManyCountAssociationsMixin;
+  // User hasMany Staff_Admin_Task via StaffId
+  Staff_Admin_Tasks!: Staff_Admin_Task[];
+  getStaff_Admin_Tasks!: Sequelize.HasManyGetAssociationsMixin<Staff_Admin_Task>;
+  setStaff_Admin_Tasks!: Sequelize.HasManySetAssociationsMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  addStaff_Admin_Task!: Sequelize.HasManyAddAssociationMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  addStaff_Admin_Tasks!: Sequelize.HasManyAddAssociationsMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  createStaff_Admin_Task!: Sequelize.HasManyCreateAssociationMixin<Staff_Admin_Task>;
+  removeStaff_Admin_Task!: Sequelize.HasManyRemoveAssociationMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  removeStaff_Admin_Tasks!: Sequelize.HasManyRemoveAssociationsMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  hasStaff_Admin_Task!: Sequelize.HasManyHasAssociationMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  hasStaff_Admin_Tasks!: Sequelize.HasManyHasAssociationsMixin<Staff_Admin_Task, Staff_Admin_TaskId>;
+  countStaff_Admin_Tasks!: Sequelize.HasManyCountAssociationsMixin;
+  // User hasMany Staff_Community_Outreach via StaffId
+  Staff_Community_Outreaches!: Staff_Community_Outreach[];
+  getStaff_Community_Outreaches!: Sequelize.HasManyGetAssociationsMixin<Staff_Community_Outreach>;
+  setStaff_Community_Outreaches!: Sequelize.HasManySetAssociationsMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  addStaff_Community_Outreach!: Sequelize.HasManyAddAssociationMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  addStaff_Community_Outreaches!: Sequelize.HasManyAddAssociationsMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  createStaff_Community_Outreach!: Sequelize.HasManyCreateAssociationMixin<Staff_Community_Outreach>;
+  removeStaff_Community_Outreach!: Sequelize.HasManyRemoveAssociationMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  removeStaff_Community_Outreaches!: Sequelize.HasManyRemoveAssociationsMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  hasStaff_Community_Outreach!: Sequelize.HasManyHasAssociationMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  hasStaff_Community_Outreaches!: Sequelize.HasManyHasAssociationsMixin<Staff_Community_Outreach, Staff_Community_OutreachId>;
+  countStaff_Community_Outreaches!: Sequelize.HasManyCountAssociationsMixin;
   // User hasMany Staff_Course via StaffId
   Staff_Courses!: Staff_Course[];
   getStaff_Courses!: Sequelize.HasManyGetAssociationsMixin<Staff_Course>;
@@ -50,6 +90,18 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   hasStaff_Course!: Sequelize.HasManyHasAssociationMixin<Staff_Course, Staff_CourseId>;
   hasStaff_Courses!: Sequelize.HasManyHasAssociationsMixin<Staff_Course, Staff_CourseId>;
   countStaff_Courses!: Sequelize.HasManyCountAssociationsMixin;
+  // User hasMany Staff_Research via StaffId
+  Staff_Researches!: Staff_Research[];
+  getStaff_Researches!: Sequelize.HasManyGetAssociationsMixin<Staff_Research>;
+  setStaff_Researches!: Sequelize.HasManySetAssociationsMixin<Staff_Research, Staff_ResearchId>;
+  addStaff_Research!: Sequelize.HasManyAddAssociationMixin<Staff_Research, Staff_ResearchId>;
+  addStaff_Researches!: Sequelize.HasManyAddAssociationsMixin<Staff_Research, Staff_ResearchId>;
+  createStaff_Research!: Sequelize.HasManyCreateAssociationMixin<Staff_Research>;
+  removeStaff_Research!: Sequelize.HasManyRemoveAssociationMixin<Staff_Research, Staff_ResearchId>;
+  removeStaff_Researches!: Sequelize.HasManyRemoveAssociationsMixin<Staff_Research, Staff_ResearchId>;
+  hasStaff_Research!: Sequelize.HasManyHasAssociationMixin<Staff_Research, Staff_ResearchId>;
+  hasStaff_Researches!: Sequelize.HasManyHasAssociationsMixin<Staff_Research, Staff_ResearchId>;
+  countStaff_Researches!: Sequelize.HasManyCountAssociationsMixin;
   // User belongsTo User_Type via Type_Id
   Type!: User_Type;
   getType!: Sequelize.BelongsToGetAssociationMixin<User_Type>;

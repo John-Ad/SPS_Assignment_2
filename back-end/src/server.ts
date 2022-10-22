@@ -1,6 +1,8 @@
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
+import AdminTasksController from './controllers/adminTasksController';
 import CourseController from './controllers/courseController';
+import StaffController from './controllers/staffController';
 import connection from './database';
 import { initModels } from './models/init-models';
 import { User_Type } from './models/User_Type';
@@ -26,6 +28,8 @@ connection.sync().then(() => { console.log("connection synced") });
 let models = initModels(connection);
 
 const courseController = new CourseController(models);
+const staffController = new StaffController(models);
+const adminTasksController = new AdminTasksController(models);
 
 //-------------------------------
 //      TEST ENDPOINT     
@@ -72,6 +76,30 @@ app.post("/staff/:staffId/courses/approve", courseController.ApproveCourseAlloca
 //----   GET ALL UNAPPROVED STAFF COURSES   ----
 app.get("/allocations/unapproved", courseController.getUnapprovedCourseAllocations);
 
+
+//-------------------------------------------
+//      STAFF ENDPOINTS      
+//-------------------------------------------
+
+//----   GET ALL STAFF   ----
+app.get("/staff/", staffController.getAll);
+
+
+//-------------------------------------------
+//      ADMINISTRATIVE TASKS ENDPOINTS      
+//-------------------------------------------
+
+//----   GET ALL ADMIN TASKS   ----
+app.get("/admin-tasks/", adminTasksController.getAll);
+
+//----   GET ALL ADMIN TASKS FOR STAFF   ----
+app.get("/staff/:staffId/admin-tasks/", adminTasksController.getAll);
+
+//----   ADD ADMIN TASK FOR STAFF   ----
+app.post("/staff/admin-tasks/", adminTasksController.getAll);
+
+//----   DELETE ADMIN TASK FOR STAFF   ----
+app.delete("/staff/:staffId/admin-tasks/:taskId", adminTasksController.getAll);
 
 //-------------------------------
 //      EXPORT SERVER     

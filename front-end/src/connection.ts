@@ -11,13 +11,22 @@ export enum GET_ENDPOINT {
     GET_STAFF_COURSES = "/staff/{id}/courses",
     GET_ALL_COURSES = "/courses/",
     GET_ALL_UNAPPROVED_ALLOCATIONS = "/allocations/unapproved",
+
+    GET_ALL_STAFF = "/staff/",
+
+    GET_ALL_ADMIN_TASKS = "/admin-tasks/",
+    GET_ALL_ADMIN_TASKS_FOR_STAFF = "/staff/:staffId/admin-tasks/",
 }
 export enum POST_ENDPOINT {
     ADD_STAFF_COURSE = "/staff/{id}/courses",
     APPROVE_STAFF_COURSE = "/staff/{id}/courses/approve",
+
+    ADD_STAFF_ADMIN_TASK = "/staff/admin-tasks/",
 }
 export enum DELETE_ENDPOINT {
     DELETE_STAFF_COURSE = "/staff/{id}/courses/{courseId}",
+
+    DELETE_STAFF_ADMIN_TASK = "/staff/{staffId}/admin-tasks/{taskId}",
 }
 
 export enum ERROR_MESSAGES {

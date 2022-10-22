@@ -30,17 +30,17 @@ export class Course extends Model<CourseAttributes, CourseCreationAttributes> im
   hasStaff_Courses!: Sequelize.HasManyHasAssociationsMixin<Staff_Course, Staff_CourseId>;
   countStaff_Courses!: Sequelize.HasManyCountAssociationsMixin;
   // Course belongsToMany User via CourseId and StaffId
-  StaffId_Users!: User[];
-  getStaffId_Users!: Sequelize.BelongsToManyGetAssociationsMixin<User>;
-  setStaffId_Users!: Sequelize.BelongsToManySetAssociationsMixin<User, UserId>;
-  addStaffId_User!: Sequelize.BelongsToManyAddAssociationMixin<User, UserId>;
-  addStaffId_Users!: Sequelize.BelongsToManyAddAssociationsMixin<User, UserId>;
-  createStaffId_User!: Sequelize.BelongsToManyCreateAssociationMixin<User>;
-  removeStaffId_User!: Sequelize.BelongsToManyRemoveAssociationMixin<User, UserId>;
-  removeStaffId_Users!: Sequelize.BelongsToManyRemoveAssociationsMixin<User, UserId>;
-  hasStaffId_User!: Sequelize.BelongsToManyHasAssociationMixin<User, UserId>;
-  hasStaffId_Users!: Sequelize.BelongsToManyHasAssociationsMixin<User, UserId>;
-  countStaffId_Users!: Sequelize.BelongsToManyCountAssociationsMixin;
+  StaffId_User_Staff_Courses!: User[];
+  getStaffId_User_Staff_Courses!: Sequelize.BelongsToManyGetAssociationsMixin<User>;
+  setStaffId_User_Staff_Courses!: Sequelize.BelongsToManySetAssociationsMixin<User, UserId>;
+  addStaffId_User_Staff_Course!: Sequelize.BelongsToManyAddAssociationMixin<User, UserId>;
+  addStaffId_User_Staff_Courses!: Sequelize.BelongsToManyAddAssociationsMixin<User, UserId>;
+  createStaffId_User_Staff_Course!: Sequelize.BelongsToManyCreateAssociationMixin<User>;
+  removeStaffId_User_Staff_Course!: Sequelize.BelongsToManyRemoveAssociationMixin<User, UserId>;
+  removeStaffId_User_Staff_Courses!: Sequelize.BelongsToManyRemoveAssociationsMixin<User, UserId>;
+  hasStaffId_User_Staff_Course!: Sequelize.BelongsToManyHasAssociationMixin<User, UserId>;
+  hasStaffId_User_Staff_Courses!: Sequelize.BelongsToManyHasAssociationsMixin<User, UserId>;
+  countStaffId_User_Staff_Courses!: Sequelize.BelongsToManyCountAssociationsMixin;
 
   static initModel(sequelize: Sequelize.Sequelize): typeof Course {
     return Course.init({
