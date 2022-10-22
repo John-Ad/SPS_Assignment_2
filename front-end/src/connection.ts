@@ -15,7 +15,7 @@ export enum GET_ENDPOINT {
     GET_ALL_STAFF = "/staff/",
 
     GET_ALL_ADMIN_TASKS = "/admin-tasks/",
-    GET_ALL_ADMIN_TASKS_FOR_STAFF = "/staff/:staffId/admin-tasks/",
+    GET_ALL_ADMIN_TASKS_FOR_STAFF = "/staff/{staffId}/admin-tasks/",
 }
 export enum POST_ENDPOINT {
     ADD_STAFF_COURSE = "/staff/{id}/courses",

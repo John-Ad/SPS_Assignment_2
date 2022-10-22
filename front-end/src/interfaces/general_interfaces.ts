@@ -38,7 +38,7 @@ export interface ILoginResponse {
 
 //  5.  User account
 export interface IUser {
-    UserId: number,
+    Id: number,
     Email: string,
     First_Name: string,
     Last_Name: string,
@@ -55,4 +55,14 @@ export interface IStaffCourse {
     IsApproved: boolean,
     Course: ICourse
     Staff: IUser
+}
+
+export interface IAdminTask {
+    Id: number,
+    Name: string
+}
+export interface IStaffAdminTask {
+    StaffId: number,
+    AdminTaskId: number,
+    AdminTask: IAdminTask
 }

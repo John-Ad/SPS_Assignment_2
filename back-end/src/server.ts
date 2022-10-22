@@ -93,13 +93,13 @@ app.get("/staff/", staffController.getAll);
 app.get("/admin-tasks/", adminTasksController.getAll);
 
 //----   GET ALL ADMIN TASKS FOR STAFF   ----
-app.get("/staff/:staffId/admin-tasks/", adminTasksController.getAll);
+app.get("/staff/:staffId/admin-tasks/", adminTasksController.getAllocated);
 
 //----   ADD ADMIN TASK FOR STAFF   ----
-app.post("/staff/admin-tasks/", adminTasksController.getAll);
+app.post("/staff/admin-tasks/", adminTasksController.addllocation);
 
 //----   DELETE ADMIN TASK FOR STAFF   ----
-app.delete("/staff/:staffId/admin-tasks/:taskId", adminTasksController.getAll);
+app.delete("/staff/:staffId/admin-tasks/:taskId", adminTasksController.deleteAllocation);
 
 //-------------------------------
 //      EXPORT SERVER     

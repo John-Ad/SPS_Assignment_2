@@ -4,7 +4,7 @@ import DeanHome from "./dean-home/deanHome";
 import "./base.css";
 import { AppBar, Box, Button, CssBaseline, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { CalendarMonth, Home, Menu, People, Work } from "@mui/icons-material";
+import { Assignment, CalendarMonth, Home, Menu, People, PeopleAltRounded, Task, TaskAltRounded, Work } from "@mui/icons-material";
 import StaffCourses from "./staff-courses/staffCourses";
 import StaffBase from "./staffBase";
 import { UserType } from "../interfaces/general_interfaces";
@@ -129,17 +129,41 @@ let Base = () => {
                                             <ListItemText primary={"Home"} sx={{ ml: 3 }} />
                                         }
                                     </ListItemButton>
+
                                     {
-                                        context.userType === UserType.STAFF &&
-                                        <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("staff/courses")}>
+                                        context.userType === UserType.DEAN &&
+                                        <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("dean/staff")}>
                                             <ListItemIcon sx={listItemIconStyle}>
-                                                <BookHalf />
+                                                <PeopleAltRounded />
                                             </ListItemIcon>
                                             {
                                                 drawerOpen &&
-                                                <ListItemText primary={"Courses"} sx={{ ml: 3 }} />
+                                                <ListItemText primary={"Staff"} sx={{ ml: 3 }} />
                                             }
                                         </ListItemButton>
+                                    }
+                                    {
+                                        context.userType === UserType.STAFF &&
+                                        <>
+                                            <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("staff/courses")}>
+                                                <ListItemIcon sx={listItemIconStyle}>
+                                                    <BookHalf />
+                                                </ListItemIcon>
+                                                {
+                                                    drawerOpen &&
+                                                    <ListItemText primary={"Courses"} sx={{ ml: 3 }} />
+                                                }
+                                            </ListItemButton>
+                                            <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("staff/admin-tasks")}>
+                                                <ListItemIcon sx={listItemIconStyle}>
+                                                    <Assignment />
+                                                </ListItemIcon>
+                                                {
+                                                    drawerOpen &&
+                                                    <ListItemText primary={"Admin tasks"} sx={{ ml: 3 }} />
+                                                }
+                                            </ListItemButton>
+                                        </>
                                     }
                                 </ListItem>
                             </List>
