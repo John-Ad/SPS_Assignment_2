@@ -19,6 +19,7 @@ export enum GET_ENDPOINT {
 
     GET_STAFF_RESEARCH = "/staff/{staffId}/research",
     GET_ALL_UNAPPROVED_RESEARCH = "/research/unapproved",
+    APPROVE_RESEARCH = "/research/{researchId}/approve",
 }
 export enum POST_ENDPOINT {
     ADD_STAFF_COURSE = "/staff/{id}/courses",
@@ -27,7 +28,6 @@ export enum POST_ENDPOINT {
     ADD_STAFF_ADMIN_TASK = "/staff/admin-tasks/",
 
     ADD_STAFF_RESEARCH = "/research",
-    APPROVE_RESEARCH = "/research/{researchId}/approve",
 
     UPLOAD_FILE = "/upload",
 }
