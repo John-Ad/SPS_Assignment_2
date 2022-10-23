@@ -3,6 +3,7 @@ import { GlobalContext } from "../contexts/globalContext";
 import { Route, Routes } from "react-router-dom";
 import StaffCourses from "./staff-courses/staffCourses";
 import StaffAdminTasksPage from "./staff-admin-tasks-page/staffAdminTasksPage";
+import StaffResearch from "./staff-research/staffResearch";
 
 
 let StaffBase = () => {
@@ -15,6 +16,7 @@ let StaffBase = () => {
 
                     <Route path="courses/" element={<StaffCourses staffId={10} context={context} />} />
                     <Route path="admin-tasks/" element={<StaffAdminTasksPage staffId={10} context={context} />} />
+                    <Route path="research/" element={<StaffResearch staffId={10} context={context} />} />
                 </Routes>
             )}
         </GlobalContext.Consumer>

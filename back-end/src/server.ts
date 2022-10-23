@@ -1,9 +1,13 @@
 import express from 'express';
 import { Express, Request, Response, NextFunction } from 'express';
+import multer from 'multer';
+import { v4 } from "uuid";
 import AdminTasksController from './controllers/adminTasksController';
 import CourseController from './controllers/courseController';
+import ResearchController from './controllers/researchController';
 import StaffController from './controllers/staffController';
 import connection from './database';
+import { IResponse } from './interfaces';
 import { initModels } from './models/init-models';
 import { User_Type } from './models/User_Type';
 
@@ -30,6 +34,20 @@ let models = initModels(connection);
 const courseController = new CourseController(models);
 const staffController = new StaffController(models);
 const adminTasksController = new AdminTasksController(models);
+const researchController = new ResearchController(models);
+
+//-------------------------------
+//      SETUP MULTER     
+//-------------------------------
+const storage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, "uploads");
+    },
+    filename: (req, file, callback) => {
+        callback(null, `${v4()}-${file.originalname}`);
+    }
+});
+const upload = multer({ storage: storage });
 
 //-------------------------------
 //      TEST ENDPOINT     
@@ -100,6 +118,39 @@ app.post("/staff/admin-tasks/", adminTasksController.addllocation);
 
 //----   DELETE ADMIN TASK FOR STAFF   ----
 app.delete("/staff/:staffId/admin-tasks/:taskId", adminTasksController.deleteAllocation);
+
+//-------------------------------------------
+//      RESEARCH ENDPOINTS      
+//-------------------------------------------
+
+//----   GET STAFF RESEARCH   ----
+app.get("/staff/:staffId/research", researchController.getAllocated);
+
+//----   ADD STAFF RESEARCH   ----
+app.post("/research", researchController.add);
+
+//----   DELETE RESEARCH   ----
+app.delete("/research/:researchId", researchController.deleteAllocation);
+
+//----   APPROVE RESEARCH   ----
+app.get("/research/:researchId/approve", researchController.Approve);
+
+//----   GET ALL UNAPPROVED RESEARCH   ----
+app.get("/research/unapproved", researchController.getAllUnapproved);
+
+//-------------------------------------------
+//      FILE UPLOADS      
+//-------------------------------------------
+
+app.post("/upload", upload.single("file"), (req, res) => {
+    let response: IResponse = { errorMessage: "", data: "" };
+    if (!req.file) {
+        response.errorMessage = "no file was provided";
+        return res.status(400).json(response);
+    }
+    response.data = { filePath: req.file.filename };
+    return res.status(200).json(response);
+});
 
 //-------------------------------
 //      EXPORT SERVER     

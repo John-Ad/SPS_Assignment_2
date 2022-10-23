@@ -16,17 +16,27 @@ export enum GET_ENDPOINT {
 
     GET_ALL_ADMIN_TASKS = "/admin-tasks/",
     GET_ALL_ADMIN_TASKS_FOR_STAFF = "/staff/{staffId}/admin-tasks/",
+
+    GET_STAFF_RESEARCH = "/staff/{staffId}/research",
+    GET_ALL_UNAPPROVED_RESEARCH = "/research/unapproved",
 }
 export enum POST_ENDPOINT {
     ADD_STAFF_COURSE = "/staff/{id}/courses",
     APPROVE_STAFF_COURSE = "/staff/{id}/courses/approve",
 
     ADD_STAFF_ADMIN_TASK = "/staff/admin-tasks/",
+
+    ADD_STAFF_RESEARCH = "/research",
+    APPROVE_RESEARCH = "/research/{researchId}/approve",
+
+    UPLOAD_FILE = "/upload",
 }
 export enum DELETE_ENDPOINT {
     DELETE_STAFF_COURSE = "/staff/{id}/courses/{courseId}",
 
     DELETE_STAFF_ADMIN_TASK = "/staff/{staffId}/admin-tasks/{taskId}",
+
+    DELETE_RESEARCH = "/research/{researchId}",
 }
 
 export enum ERROR_MESSAGES {

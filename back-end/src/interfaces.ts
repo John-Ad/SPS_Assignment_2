@@ -8,6 +8,12 @@ export interface IAddStaffAdminTask {
     taskId: number
 }
 
+export interface IAddStaffResearch {
+    staffId: number,
+    name: string,
+    filePath: string,
+}
+
 export interface IResponse {
     errorMessage: string,
     data: any

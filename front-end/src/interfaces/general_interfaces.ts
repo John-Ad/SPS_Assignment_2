@@ -66,3 +66,19 @@ export interface IStaffAdminTask {
     AdminTaskId: number,
     AdminTask: IAdminTask
 }
+
+export interface IStaffResearch {
+    Id: number,
+    StaffId: number,
+    Name: string,
+    File_Path: string,
+    IsApproved: boolean,
+
+    Staff: IUser
+}
+
+export interface IAddStaffResearch {
+    staffId: number,
+    name: string,
+    filePath: string,
+}
