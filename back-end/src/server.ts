@@ -4,6 +4,7 @@ import multer from 'multer';
 import { v4 } from "uuid";
 import AdminTasksController from './controllers/adminTasksController';
 import CourseController from './controllers/courseController';
+import OutreachController from './controllers/outreachController';
 import ResearchController from './controllers/researchController';
 import StaffController from './controllers/staffController';
 import connection from './database';
@@ -35,6 +36,7 @@ const courseController = new CourseController(models);
 const staffController = new StaffController(models);
 const adminTasksController = new AdminTasksController(models);
 const researchController = new ResearchController(models);
+const outreachController = new OutreachController(models);
 
 //-------------------------------
 //      SETUP MULTER     
@@ -137,6 +139,25 @@ app.get("/research/:researchId/approve", researchController.Approve);
 
 //----   GET ALL UNAPPROVED RESEARCH   ----
 app.get("/research/unapproved", researchController.getAllUnapproved);
+
+//-------------------------------------------
+//      OUTREACH ENDPOINTS      
+//-------------------------------------------
+
+//----   GET STAFF OUTREACH   ----
+app.get("/staff/:staffId/outreach", outreachController.getAllocated);
+
+//----   ADD STAFF OUTREACH   ----
+app.post("/outreach", outreachController.add);
+
+//----   DELETE OUTREACH   ----
+app.delete("/outreach/:outreachId", outreachController.deleteAllocation);
+
+//----   APPROVE OUTREACH   ----
+app.get("/outreach/:outreachId/approve", outreachController.Approve);
+
+//----   GET ALL UNAPPROVED OUTREACH   ----
+app.get("/outreach/unapproved", outreachController.getAllUnapproved);
 
 //-------------------------------------------
 //      FILE HANDLING      

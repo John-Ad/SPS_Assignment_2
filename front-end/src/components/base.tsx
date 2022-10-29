@@ -4,7 +4,7 @@ import DeanHome from "./dean-home/deanHome";
 import "./base.css";
 import { AppBar, Box, Button, CssBaseline, Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Assignment, CalendarMonth, Home, Menu, People, PeopleAltRounded, Science, Task, TaskAltRounded, Work } from "@mui/icons-material";
+import { Assignment, CalendarMonth, FoodBank, Home, Menu, People, PeopleAltRounded, Science, Task, TaskAltRounded, Work } from "@mui/icons-material";
 import StaffCourses from "./staff-courses/staffCourses";
 import StaffBase from "./staffBase";
 import { UserType } from "../interfaces/general_interfaces";
@@ -170,6 +170,15 @@ let Base = () => {
                                                 {
                                                     drawerOpen &&
                                                     <ListItemText primary={"Research"} sx={{ ml: 3 }} />
+                                                }
+                                            </ListItemButton>
+                                            <ListItemButton sx={listItemButtonStyle} onClick={() => navigateToPage("staff/outreach")}>
+                                                <ListItemIcon sx={listItemIconStyle}>
+                                                    <FoodBank />
+                                                </ListItemIcon>
+                                                {
+                                                    drawerOpen &&
+                                                    <ListItemText primary={"Outreach"} sx={{ ml: 3 }} />
                                                 }
                                             </ListItemButton>
                                         </>

@@ -15,10 +15,10 @@ interface IProps {
     staffId: number
 }
 
-const StaffResearch = (props: IProps) => {
+const StaffOutreach = (props: IProps) => {
 
     const [loading, setLoading] = useState(false);
-    const [research, setResearch] = useState<IStaffResearch[]>([]);
+    const [outreach, setOutreach] = useState<IStaffResearch[]>([]);
 
 
     const [name, setName] = useState("");
@@ -34,14 +34,14 @@ const StaffResearch = (props: IProps) => {
 
     //----   COMPONENT DID MOUND   ----
     useEffect(() => {
-        getStaffResearch();
+        getStaffOutreach();
     }, []);
 
 
-    //----   GET STAFF RESEARCH   ----
-    const getStaffResearch = async () => {
+    //----   GET STAFF outreach   ----
+    const getStaffOutreach = async () => {
         setLoading(true);
-        let qry = GET_ENDPOINT.GET_STAFF_RESEARCH.toString();
+        let qry = GET_ENDPOINT.GET_STAFF_OUTREACH.toString();
         qry = qry.replace("{staffId}", props.staffId.toString());
         console.log(qry);
         let result: IResponse = await Connection.getRequest(qry, "");
@@ -50,10 +50,10 @@ const StaffResearch = (props: IProps) => {
             errorToast(result.errorMessage, true);
             return;
         }
-        setResearch(result.data);
+        setOutreach(result.data);
     }
 
-    //----   ADD RESEARCH   ----
+    //----   ADD outreach   ----
     const add = async () => {
 
         if (!file) {
@@ -95,7 +95,7 @@ const StaffResearch = (props: IProps) => {
             name: name
         }
 
-        result = await Connection.postRequest(POST_ENDPOINT.ADD_STAFF_RESEARCH, dataToSend, {});
+        result = await Connection.postRequest(POST_ENDPOINT.ADD_STAFF_OUTREACH, dataToSend, {});
         setLoading(false);
         if (result.errorMessage.length > 0) {
             errorToast(result.errorMessage, true);
@@ -103,7 +103,7 @@ const StaffResearch = (props: IProps) => {
         }
 
         successToast("success", true);
-        getStaffResearch();
+        getStaffOutreach();
         setAdding(false);
     }
 
@@ -111,28 +111,28 @@ const StaffResearch = (props: IProps) => {
     //----   ON DELETE   ----
     const onDelete = async (data: IStaffResearch) => {
         setLoading(true);
-        let qry = DELETE_ENDPOINT.DELETE_RESEARCH.toString();
-        qry = qry.replace("{researchId}", data.Id.toString());
+        let qry = DELETE_ENDPOINT.DELETE_OUTREACH.toString();
+        qry = qry.replace("{outreachId}", data.Id.toString());
         let result: IResponse = await Connection.delRequest(qry);
         setLoading(false);
         if (result.errorMessage.length > 0) {
             errorToast(result.errorMessage, true);
             return;
         }
-        getStaffResearch();
+        getStaffOutreach();
     }
 
     return (
         <>
             <div className="full-size">
                 <TableComponent
-                    title="Research"
+                    title="Outreach"
                     context={props.context}
 
-                    ids={[...research]}
+                    ids={[...outreach]}
                     headerValues={["Id", "Name", "", ""]}
                     data={
-                        research.map((r, index) => {
+                        outreach.map((r, index) => {
                             let colVals: IColumnData[] = [
                                 { type: TABLE_DATA_TYPE.ID, value: r.Id },
                                 { type: TABLE_DATA_TYPE.STRING, value: r.Name },
@@ -158,12 +158,12 @@ const StaffResearch = (props: IProps) => {
                     adding &&
                     <Modal show={true} onHide={() => setAdding(false)} style={{ zIndex: 10000000 }}>
                         <Modal.Header closeButton>
-                            Adding Research
+                            Adding Outreach
                         </Modal.Header>
                         <Modal.Body>
                             <Form>
                                 <Form.Group className="mb-3" controlId={"asd"}>
-                                    <Form.Label>Research Name:</Form.Label>
+                                    <Form.Label>Outreach Name:</Form.Label>
                                     <Form.Control onChange={(e) => setName(e.target.value)} type="text" value={name} placeholder="" />
                                 </Form.Group>
                                 <Form.Group>
@@ -203,4 +203,4 @@ const StaffResearch = (props: IProps) => {
     );
 }
 
-export default StaffResearch;
+export default StaffOutreach;

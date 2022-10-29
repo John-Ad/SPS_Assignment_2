@@ -19,12 +19,14 @@ const DeanHome = (props: IProps) => {
     const [loading, setLoading] = useState(false);
     const [staffCourses, setStaffCourses] = useState<IStaffCourse[]>([]);
     const [staffResearch, setStaffResearch] = useState<IStaffResearch[]>([]);
-    const [researchToDownload,setResearchToDownload]=useState<IStaffResearch>();
+    const [staffOutreach, setStaffOutreach] = useState<IStaffResearch[]>([]);
+    const [researchToDownload, setResearchToDownload] = useState<IStaffResearch>();
 
     //----   COMPONENT DID MOUND   ----
     useEffect(() => {
         getUnapprovedAllocations();
         getUnapprovedResearch();
+        getUnapprovedOutreach();
     }, []);
 
     //----   GET STAFF COURSES   ----
@@ -50,6 +52,19 @@ const DeanHome = (props: IProps) => {
             return;
         }
         setStaffResearch(result.data);
+        console.log(result.data);
+    }
+
+    //----   GET STAFF OUTREACH   ----
+    const getUnapprovedOutreach = async () => {
+        setLoading(true);
+        let result: IResponse = await Connection.getRequest(GET_ENDPOINT.GET_ALL_UNAPPROVED_OUTREACH, "");
+        setLoading(false);
+        if (result.errorMessage.length > 0) {
+            errorToast(result.errorMessage, true);
+            return;
+        }
+        setStaffOutreach(result.data);
         console.log(result.data);
     }
 
@@ -83,6 +98,20 @@ const DeanHome = (props: IProps) => {
         getUnapprovedResearch();
     }
 
+    //----   ON OUTREACH DELETE   ----
+    const onOutreachDelete = async (data: IStaffResearch) => {
+        setLoading(true);
+        let qry = DELETE_ENDPOINT.DELETE_OUTREACH.toString();
+        qry = qry.replace("{outreachId}", data.Id.toString());
+        let result: IResponse = await Connection.delRequest(qry);
+        setLoading(false);
+        if (result.errorMessage.length > 0) {
+            errorToast(result.errorMessage, true);
+            return;
+        }
+        getUnapprovedOutreach();
+    }
+
     //----   ON ALLOCATION APPROVE   ----
     const onAllocationApprove = async (data: IStaffCourse) => {
         setLoading(true);
@@ -112,6 +141,21 @@ const DeanHome = (props: IProps) => {
         getUnapprovedResearch();
     }
 
+    //----   ON OUTREACH APPROVE   ----
+    const onOutreachApprove = async (data: IStaffResearch) => {
+        setLoading(true);
+        console.log(data);
+        let qry = GET_ENDPOINT.APPROVE_OUTREACH.toString();
+        qry = qry.replace("{outreachId}", data.Id.toString());
+        let result: IResponse = await Connection.getRequest(qry, "");
+        setLoading(false);
+        if (result.errorMessage.length > 0) {
+            errorToast(result.errorMessage, true);
+            return;
+        }
+        getUnapprovedOutreach();
+    }
+
     return (
         <div className="dean-dashboard-container vert-flex full-size">
             <div className="dean-dashboard-card-small shadow">
@@ -124,14 +168,14 @@ const DeanHome = (props: IProps) => {
                     data={
                         staffCourses.map((course, index) => {
                             let colVals: IColumnData[] = [
-                            { type: TABLE_DATA_TYPE.STRING, value: `${course.Staff.First_Name} ${course.Staff.Last_Name}` },
-                    { type: TABLE_DATA_TYPE.STRING, value: course.Course.Name },
-                    ];
+                                { type: TABLE_DATA_TYPE.STRING, value: `${course.Staff.First_Name} ${course.Staff.Last_Name}` },
+                                { type: TABLE_DATA_TYPE.STRING, value: course.Course.Name },
+                            ];
 
-                    return {
-                        colValues: colVals
-                    }
-                    })
+                            return {
+                                colValues: colVals
+                            }
+                        })
                     }
                     loading={loading}
                     onReject={onAllocationDelete}
@@ -148,14 +192,14 @@ const DeanHome = (props: IProps) => {
                     data={
                         staffResearch.map((research, index) => {
                             let colVals: IColumnData[] = [
-                            { type: TABLE_DATA_TYPE.STRING, value: `${research.Staff.First_Name} ${research.Staff.Last_Name}` },
-                    { type: TABLE_DATA_TYPE.STRING, value: research.Name },
-                    ];
+                                { type: TABLE_DATA_TYPE.STRING, value: `${research.Staff.First_Name} ${research.Staff.Last_Name}` },
+                                { type: TABLE_DATA_TYPE.STRING, value: research.Name },
+                            ];
 
-                    return {
-                        colValues: colVals
-                    }
-                    })
+                            return {
+                                colValues: colVals
+                            }
+                        })
                     }
 
                     loading={loading}
@@ -164,9 +208,35 @@ const DeanHome = (props: IProps) => {
                     onDownload={(file: IStaffResearch) => setResearchToDownload(file)}
                 />
             </div>
+            <div className="dean-dashboard-card-small shadow">
+                <TableComponent
+                    title="Approve Outreach"
+                    context={props.context}
+
+                    ids={[...staffOutreach]}
+                    headerValues={["Staff", "Name"]}
+                    data={
+                        staffOutreach.map((outreach, index) => {
+                            let colVals: IColumnData[] = [
+                                { type: TABLE_DATA_TYPE.STRING, value: `${outreach.Staff.First_Name} ${outreach.Staff.Last_Name}` },
+                                { type: TABLE_DATA_TYPE.STRING, value: outreach.Name },
+                            ];
+
+                            return {
+                                colValues: colVals
+                            }
+                        })
+                    }
+
+                    loading={loading}
+                    onReject={onOutreachDelete}
+                    onApprove={onOutreachApprove}
+                    onDownload={(file: IStaffResearch) => setResearchToDownload(file)}
+                />
+            </div>
             {
-                researchToDownload&&
-                    <DownloadDocumentComponent context={props.context} fileName={researchToDownload.Name} filePath={researchToDownload.File_Path} hide={()=>setResearchToDownload(undefined)} show={true} />
+                researchToDownload &&
+                <DownloadDocumentComponent context={props.context} fileName={researchToDownload.Name} filePath={researchToDownload.File_Path} hide={() => setResearchToDownload(undefined)} show={true} />
             }
 
         </div>
