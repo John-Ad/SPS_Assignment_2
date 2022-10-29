@@ -1,4 +1,4 @@
-import { Add, CheckCircleOutline, DeleteForever, DoNotDisturbOn, Edit, Padding, Pending, Visibility } from "@mui/icons-material";
+import { Add, CheckCircleOutline, DeleteForever, DoNotDisturbOn, Download, Edit, Padding, Pending, Visibility } from "@mui/icons-material";
 import { Box, Paper, Switch, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Toolbar, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { Badge } from "react-bootstrap";
@@ -51,6 +51,7 @@ interface IProps {
 
     onAdd?(): void,
     onView?(id: any): void,
+    onDownload?(id: any): void,
     onEdit?(id: any): void,
     onDelete?(id: any): void,
 
@@ -224,6 +225,15 @@ const TableComponent = (props: IProps) => {
                                                 <TableCell width={`${props.context.isMobile ? "30px" : "70px"}`}>
                                                     <Visibility onClick={() => { if (props.onView) props.onView(props.ids[index]) }} className="icon-m hover seen" />
                                                 </TableCell>
+                                            }
+                                            {
+                                                props.onDownload &&
+                                                <td width={`${props.context.isMobile ? "30px" : "70px"}`}>
+                                                    <Download onClick={() => {
+                                                        props.onDownload &&
+                                                            props.onDownload(props.ids[index])
+                                                    }} className="hover file-link icon-sm" />
+                                                </td>
                                             }
                                             {
                                                 props.onEdit &&

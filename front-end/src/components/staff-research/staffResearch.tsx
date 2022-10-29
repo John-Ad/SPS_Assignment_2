@@ -7,11 +7,12 @@ import AddEditComponent, { ISelect } from "../add-edit-component/AddEditComponen
 import { errorToast, successToast } from "../alert-components/toasts";
 import Loading from "../loading-component/loading";
 import TableComponent, { IColumnData, TABLE_DATA_TYPE } from "../table-component/tableComponent";
+import DownloadDocumentComponent from "../file-downloader-component/downloadDocComponent";
 
 
 interface IProps {
     context: IGlobalContext,
-    staffId: number
+        staffId: number
 }
 
 const StaffResearch = (props: IProps) => {
@@ -27,6 +28,8 @@ const StaffResearch = (props: IProps) => {
 
     const [adding, setAdding] = useState(false);
     const [uploading, setUploading] = useState(false);
+
+    const [fileToDownload,setFileToDownload]=useState<IStaffResearch>();
 
 
     //----   COMPONENT DID MOUND   ----
@@ -127,66 +130,71 @@ const StaffResearch = (props: IProps) => {
                     context={props.context}
 
                     ids={[...research]}
-                    headerValues={["Id", "Name"]}
+                    headerValues={["Id", "Name", "", ""]}
                     data={
                         research.map((r, index) => {
                             let colVals: IColumnData[] = [
-                                { type: TABLE_DATA_TYPE.ID, value: r.Id },
-                                { type: TABLE_DATA_TYPE.STRING, value: r.Name },
-                            ];
-                            if (r.IsApproved) {
-                                colVals.push({ type: TABLE_DATA_TYPE.BADGE_SUCCESS, value: "approved" });
-                            } else {
-                                colVals.push({ type: TABLE_DATA_TYPE.BADGE_WARNING, value: "pending" });
-                            }
+                            { type: TABLE_DATA_TYPE.ID, value: r.Id },
+                    { type: TABLE_DATA_TYPE.STRING, value: r.Name },
+                    ];
+                    if (r.IsApproved) {
+                        colVals.push({ type: TABLE_DATA_TYPE.BADGE_SUCCESS, value: "approved" });
+                    } else {
+                        colVals.push({ type: TABLE_DATA_TYPE.BADGE_WARNING, value: "pending" });
+                    }
 
-                            return {
-                                colValues: colVals
-                            }
-                        })
+                    return {
+                        colValues: colVals
+                    }
+                    })
                     }
                     loading={loading}
                     onAdd={() => setAdding(true)}
                     onDelete={onDelete}
+                    onDownload={(file: IStaffResearch) => setFileToDownload(file)}
                 />
 
                 {
                     adding &&
-                    <Modal show={true} onHide={() => setAdding(false)} style={{ zIndex: 10000000 }}>
-                        <Modal.Header closeButton>
-                            Adding Research
-                        </Modal.Header>
-                        <Modal.Body>
-                            <Form>
-                                <Form.Group className="mb-3" controlId={"asd"}>
-                                    <Form.Label>Research Name:</Form.Label>
-                                    <Form.Control onChange={(e) => setName(e.target.value)} type="text" value={name} placeholder="" />
-                                </Form.Group>
-                                <Form.Group>
-                                    <Form.Label>Choose a file as evidence:</Form.Label>
-                                    <Form.Control type="file" onChange={(e) => setFile((e as any).target.files[0])} />
-                                </Form.Group>
-                                {
-                                    loading &&
-                                    <div className="w-100 prg-bar">
-                                        <ProgressBar now={uploadProgress} label={`${uploadProgress}%`} />
-                                    </div>
-                                }
-                                {
-                                    loading &&
-                                    <Loading color="blue" />
-                                }
-                            </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={() => setAdding(false)}>
-                                Cancel
-                            </Button>
-                            <Button variant="primary" onClick={() => add()}>
-                                Save
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+                        <Modal show={true} onHide={() => setAdding(false)} style={{ zIndex: 10000000 }}>
+                            <Modal.Header closeButton>
+                                Adding Research
+                            </Modal.Header>
+                            <Modal.Body>
+                                <Form>
+                                    <Form.Group className="mb-3" controlId={"asd"}>
+                                        <Form.Label>Research Name:</Form.Label>
+                                        <Form.Control onChange={(e) => setName(e.target.value)} type="text" value={name} placeholder="" />
+                                    </Form.Group>
+                                    <Form.Group>
+                                        <Form.Label>Choose a file as evidence:</Form.Label>
+                                        <Form.Control type="file" onChange={(e) => setFile((e as any).target.files[0])} />
+                                    </Form.Group>
+                                    {
+                                        loading &&
+                                            <div className="w-100 prg-bar">
+                                                <ProgressBar now={uploadProgress} label={`${uploadProgress}%`} />
+                                            </div>
+                                    }
+                                    {
+                                        loading &&
+                                            <Loading color="blue" />
+                                    }
+                                </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={() => setAdding(false)}>
+                                    Cancel
+                                </Button>
+                                <Button variant="primary" onClick={() => add()}>
+                                    Save
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                }
+                {
+                    fileToDownload&&
+                        <DownloadDocumentComponent context={props.context} fileName={fileToDownload.Name} filePath={fileToDownload.File_Path} hide={()=>setFileToDownload(undefined)} show={true} />
                 }
             </div>
 

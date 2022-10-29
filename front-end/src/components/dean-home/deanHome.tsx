@@ -3,6 +3,7 @@ import { Connection, DELETE_ENDPOINT, GET_ENDPOINT, POST_ENDPOINT } from "../../
 import { ICourse, IGlobalContext, IResponse, IStaffCourse, IStaffResearch } from "../../interfaces/general_interfaces";
 import AddEditComponent, { ISelect } from "../add-edit-component/AddEditComponent";
 import { errorToast, successToast } from "../alert-components/toasts";
+import DownloadDocumentComponent from "../file-downloader-component/downloadDocComponent";
 import Loading from "../loading-component/loading";
 import StaffResearch from "../staff-research/staffResearch";
 import TableComponent, { IColumnData, TABLE_DATA_TYPE } from "../table-component/tableComponent";
@@ -18,6 +19,7 @@ const DeanHome = (props: IProps) => {
     const [loading, setLoading] = useState(false);
     const [staffCourses, setStaffCourses] = useState<IStaffCourse[]>([]);
     const [staffResearch, setStaffResearch] = useState<IStaffResearch[]>([]);
+    const [researchToDownload,setResearchToDownload]=useState<IStaffResearch>();
 
     //----   COMPONENT DID MOUND   ----
     useEffect(() => {
@@ -122,14 +124,14 @@ const DeanHome = (props: IProps) => {
                     data={
                         staffCourses.map((course, index) => {
                             let colVals: IColumnData[] = [
-                                { type: TABLE_DATA_TYPE.STRING, value: `${course.Staff.First_Name} ${course.Staff.Last_Name}` },
-                                { type: TABLE_DATA_TYPE.STRING, value: course.Course.Name },
-                            ];
+                            { type: TABLE_DATA_TYPE.STRING, value: `${course.Staff.First_Name} ${course.Staff.Last_Name}` },
+                    { type: TABLE_DATA_TYPE.STRING, value: course.Course.Name },
+                    ];
 
-                            return {
-                                colValues: colVals
-                            }
-                        })
+                    return {
+                        colValues: colVals
+                    }
+                    })
                     }
                     loading={loading}
                     onReject={onAllocationDelete}
@@ -146,21 +148,26 @@ const DeanHome = (props: IProps) => {
                     data={
                         staffResearch.map((research, index) => {
                             let colVals: IColumnData[] = [
-                                { type: TABLE_DATA_TYPE.STRING, value: `${research.Staff.First_Name} ${research.Staff.Last_Name}` },
-                                { type: TABLE_DATA_TYPE.STRING, value: research.Name },
-                            ];
+                            { type: TABLE_DATA_TYPE.STRING, value: `${research.Staff.First_Name} ${research.Staff.Last_Name}` },
+                    { type: TABLE_DATA_TYPE.STRING, value: research.Name },
+                    ];
 
-                            return {
-                                colValues: colVals
-                            }
-                        })
+                    return {
+                        colValues: colVals
+                    }
+                    })
                     }
 
                     loading={loading}
                     onReject={onResearchDelete}
                     onApprove={onResearchApprove}
+                    onDownload={(file: IStaffResearch) => setResearchToDownload(file)}
                 />
             </div>
+            {
+                researchToDownload&&
+                    <DownloadDocumentComponent context={props.context} fileName={researchToDownload.Name} filePath={researchToDownload.File_Path} hide={()=>setResearchToDownload(undefined)} show={true} />
+            }
 
         </div>
     );

@@ -139,7 +139,7 @@ app.get("/research/:researchId/approve", researchController.Approve);
 app.get("/research/unapproved", researchController.getAllUnapproved);
 
 //-------------------------------------------
-//      FILE UPLOADS      
+//      FILE HANDLING      
 //-------------------------------------------
 
 app.post("/upload", upload.single("file"), (req, res) => {
@@ -150,6 +150,12 @@ app.post("/upload", upload.single("file"), (req, res) => {
     }
     response.data = { filePath: req.file.filename };
     return res.status(200).json(response);
+});
+
+app.get("/download/:path", (req, res) => {
+    let path = req.params.path;
+    const file = `${__dirname}/../uploads/${path}`;
+    res.download(file);
 });
 
 //-------------------------------
