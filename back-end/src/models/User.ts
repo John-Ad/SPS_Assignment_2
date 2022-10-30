@@ -7,6 +7,7 @@ import type { Staff_Community_Outreach, Staff_Community_OutreachId } from './Sta
 import type { Staff_Course, Staff_CourseId } from './Staff_Course';
 import type { Staff_Research, Staff_ResearchId } from './Staff_Research';
 import type { User_Type, User_TypeId } from './User_Type';
+import type { Workload_Sheet, Workload_SheetId } from './Workload_Sheet';
 
 export interface UserAttributes {
   Id: number;
@@ -102,6 +103,18 @@ export class User extends Model<UserAttributes, UserCreationAttributes> implemen
   hasStaff_Research!: Sequelize.HasManyHasAssociationMixin<Staff_Research, Staff_ResearchId>;
   hasStaff_Researches!: Sequelize.HasManyHasAssociationsMixin<Staff_Research, Staff_ResearchId>;
   countStaff_Researches!: Sequelize.HasManyCountAssociationsMixin;
+  // User hasMany Workload_Sheet via StaffId
+  Workload_Sheets!: Workload_Sheet[];
+  getWorkload_Sheets!: Sequelize.HasManyGetAssociationsMixin<Workload_Sheet>;
+  setWorkload_Sheets!: Sequelize.HasManySetAssociationsMixin<Workload_Sheet, Workload_SheetId>;
+  addWorkload_Sheet!: Sequelize.HasManyAddAssociationMixin<Workload_Sheet, Workload_SheetId>;
+  addWorkload_Sheets!: Sequelize.HasManyAddAssociationsMixin<Workload_Sheet, Workload_SheetId>;
+  createWorkload_Sheet!: Sequelize.HasManyCreateAssociationMixin<Workload_Sheet>;
+  removeWorkload_Sheet!: Sequelize.HasManyRemoveAssociationMixin<Workload_Sheet, Workload_SheetId>;
+  removeWorkload_Sheets!: Sequelize.HasManyRemoveAssociationsMixin<Workload_Sheet, Workload_SheetId>;
+  hasWorkload_Sheet!: Sequelize.HasManyHasAssociationMixin<Workload_Sheet, Workload_SheetId>;
+  hasWorkload_Sheets!: Sequelize.HasManyHasAssociationsMixin<Workload_Sheet, Workload_SheetId>;
+  countWorkload_Sheets!: Sequelize.HasManyCountAssociationsMixin;
   // User belongsTo User_Type via Type_Id
   Type!: User_Type;
   getType!: Sequelize.BelongsToGetAssociationMixin<User_Type>;

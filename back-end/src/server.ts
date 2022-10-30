@@ -7,6 +7,7 @@ import CourseController from './controllers/courseController';
 import OutreachController from './controllers/outreachController';
 import ResearchController from './controllers/researchController';
 import StaffController from './controllers/staffController';
+import WorksheetController from './controllers/worksheetController';
 import connection from './database';
 import { IResponse } from './interfaces';
 import { initModels } from './models/init-models';
@@ -37,6 +38,7 @@ const staffController = new StaffController(models);
 const adminTasksController = new AdminTasksController(models);
 const researchController = new ResearchController(models);
 const outreachController = new OutreachController(models);
+const workloadController = new WorksheetController(models);
 
 //-------------------------------
 //      SETUP MULTER     
@@ -158,6 +160,25 @@ app.get("/outreach/:outreachId/approve", outreachController.Approve);
 
 //----   GET ALL UNAPPROVED OUTREACH   ----
 app.get("/outreach/unapproved", outreachController.getAllUnapproved);
+
+//-------------------------------------------
+//      WORKLOAD SHEET ENDPOINTS      
+//-------------------------------------------
+
+//----   GET STAFF WORKLOAD-SHEETS   ----
+app.get("/staff/:staffId/workload-sheets", workloadController.getAllocated);
+
+//----   ADD STAFF WORKLOAD-SHEETS   ----
+app.post("/workload-sheets", workloadController.add);
+
+//----   DELETE WORKLOAD-SHEETS   ----
+app.delete("/workload-sheets/:sheetId", workloadController.deleteAllocation);
+
+//----   APPROVE WORKLOAD-SHEETS   ----
+app.get("/workload-sheets/:sheetId/approve", workloadController.Approve);
+
+//----   GET ALL UNAPPROVED WORKLOAD-SHEETS   ----
+app.get("/workload-sheets/unapproved", workloadController.getAllUnapproved);
 
 //-------------------------------------------
 //      FILE HANDLING      

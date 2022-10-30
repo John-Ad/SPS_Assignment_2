@@ -77,6 +77,17 @@ create table Staff_Community_Outreach(
     foreign key (StaffId) references User(Id) on delete cascade
 );
 
+create table Workload_Sheet(
+    Id int primary key auto_increment,
+    StaffId int not null,
+    `Name` varchar(100) not null,
+    `File_Path` varchar(500) not null,
+
+    IsApproved bit not null default 0,
+
+    foreign key (StaffId) references User(Id) on delete cascade
+);
+
 
 insert into User_Type(`Name`) values("Staff");
 insert into User_Type(`Name`) values("HoD");

@@ -72,13 +72,13 @@ const TableComponent = (props: IProps) => {
                     // p: "20px"
                     marginBottom: "20px",
 
-                    backgroundColor: props.titleBgCol ?? ""
+                    backgroundColor: props.titleBgCol ?? "#1976d2"
                 }}>
                     <Typography
                         sx={{
                             width: "100%",
                             textAlign: "start",
-                            color: props.titleCol ?? "#666",
+                            color: props.titleCol ?? "white",
                         }}
                         variant="h4"
                         component="div"
@@ -87,7 +87,7 @@ const TableComponent = (props: IProps) => {
                     </Typography>
                     {
                         props.onAdd &&
-                        <Add onClick={() => { if (props.onAdd) props.onAdd() }} fontSize="large" className="hor-center hover btn-approve" />
+                        <Add style={{ color: props.titleCol ?? "white" }} onClick={() => { if (props.onAdd) props.onAdd() }} fontSize="large" className="hor-center hover" />
                     }
                 </Toolbar>
 

@@ -5,6 +5,7 @@ import StaffCourses from "./staff-courses/staffCourses";
 import StaffAdminTasksPage from "./staff-admin-tasks-page/staffAdminTasksPage";
 import StaffResearch from "./staff-research/staffResearch";
 import StaffOutreach from "./staff-outreach/staffOutreach";
+import StaffHome from "./staff-home/staffHome";
 
 
 let StaffBase = () => {
@@ -13,7 +14,7 @@ let StaffBase = () => {
             {context => (
 
                 <Routes>
-                    <Route path="" element={<div>Staff home</div>} />
+                    <Route path="" element={<StaffHome context={context} staffId={10} />} />
 
                     <Route path="courses/" element={<StaffCourses staffId={10} context={context} />} />
                     <Route path="admin-tasks/" element={<StaffAdminTasksPage staffId={10} context={context} />} />

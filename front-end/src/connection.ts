@@ -26,6 +26,10 @@ export enum GET_ENDPOINT {
     GET_ALL_UNAPPROVED_OUTREACH = "/outreach/unapproved",
     APPROVE_OUTREACH = "/outreach/{outreachId}/approve",
 
+    GET_STAFF_WORKLOAD_SHEETS = "/staff/{staffId}/workload-sheets",
+    GET_ALL_UNAPPROVED_WORKLOAD_SHEETS = "/workload-sheets/unapproved",
+    APPROVE_WORKLOAD_SHEET = "/workload-sheets/{sheetId}/approve",
+
     DOWNLOAD_FILE = "/download/{path}",
 }
 export enum POST_ENDPOINT {
@@ -36,6 +40,7 @@ export enum POST_ENDPOINT {
 
     ADD_STAFF_RESEARCH = "/research",
     ADD_STAFF_OUTREACH = "/outreach",
+    ADD_STAFF_WORKLOAD_SHEET = "/workload-sheets",
 
     UPLOAD_FILE = "/upload",
 }
@@ -46,6 +51,7 @@ export enum DELETE_ENDPOINT {
 
     DELETE_RESEARCH = "/research/{researchId}",
     DELETE_OUTREACH = "/outreach/{outreachId}",
+    DELETE_WORKLOAD_SHEET = "/workload-sheets/{sheetId}",
 }
 
 export enum ERROR_MESSAGES {

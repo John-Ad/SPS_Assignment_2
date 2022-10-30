@@ -15,6 +15,8 @@ import { User as _User } from "./User";
 import type { UserAttributes, UserCreationAttributes } from "./User";
 import { User_Type as _User_Type } from "./User_Type";
 import type { User_TypeAttributes, User_TypeCreationAttributes } from "./User_Type";
+import { Workload_Sheet as _Workload_Sheet } from "./Workload_Sheet";
+import type { Workload_SheetAttributes, Workload_SheetCreationAttributes } from "./Workload_Sheet";
 
 export {
   _Admin_Task as Admin_Task,
@@ -25,6 +27,7 @@ export {
   _Staff_Research as Staff_Research,
   _User as User,
   _User_Type as User_Type,
+  _Workload_Sheet as Workload_Sheet,
 };
 
 export type {
@@ -44,6 +47,8 @@ export type {
   UserCreationAttributes,
   User_TypeAttributes,
   User_TypeCreationAttributes,
+  Workload_SheetAttributes,
+  Workload_SheetCreationAttributes,
 };
 
 export function initModels(sequelize: Sequelize) {
@@ -55,6 +60,7 @@ export function initModels(sequelize: Sequelize) {
   const Staff_Research = _Staff_Research.initModel(sequelize);
   const User = _User.initModel(sequelize);
   const User_Type = _User_Type.initModel(sequelize);
+  const Workload_Sheet = _Workload_Sheet.initModel(sequelize);
 
   Admin_Task.belongsToMany(User, { as: 'StaffId_Users', through: Staff_Admin_Task, foreignKey: "AdminTaskId", otherKey: "StaffId" });
   Course.belongsToMany(User, { as: 'StaffId_User_Staff_Courses', through: Staff_Course, foreignKey: "CourseId", otherKey: "StaffId" });
@@ -72,6 +78,8 @@ export function initModels(sequelize: Sequelize) {
   User.hasMany(Staff_Course, { as: "Staff_Courses", foreignKey: "StaffId"});
   Staff_Research.belongsTo(User, { as: "Staff", foreignKey: "StaffId"});
   User.hasMany(Staff_Research, { as: "Staff_Researches", foreignKey: "StaffId"});
+  Workload_Sheet.belongsTo(User, { as: "Staff", foreignKey: "StaffId"});
+  User.hasMany(Workload_Sheet, { as: "Workload_Sheets", foreignKey: "StaffId"});
   User.belongsTo(User_Type, { as: "Type", foreignKey: "Type_Id"});
   User_Type.hasMany(User, { as: "Users", foreignKey: "Type_Id"});
 
@@ -84,5 +92,6 @@ export function initModels(sequelize: Sequelize) {
     Staff_Research: Staff_Research,
     User: User,
     User_Type: User_Type,
+    Workload_Sheet: Workload_Sheet,
   };
 }

@@ -49,7 +49,10 @@ let Base = () => {
         <GlobalContext.Consumer>
             {context => (
 
-                <Box sx={{ display: "flex" }} >
+                <Box sx={{
+                    display: "flex",
+                    backgroundColor: "#eeeeee"
+                }} >
 
                     <CssBaseline />
 
@@ -195,6 +198,7 @@ let Base = () => {
                             flexGrow: 1,
                             p: context.isMobile ? 0 : 3,
                             maxWidth: `${window.innerWidth - drawerWidth - 10}px`,
+                            backgroundColor: "#eeeeee"
                         }}
                     >
                         {/* add empty toolbar to shift hidden content down */}

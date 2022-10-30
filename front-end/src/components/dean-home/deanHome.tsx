@@ -20,6 +20,7 @@ const DeanHome = (props: IProps) => {
     const [staffCourses, setStaffCourses] = useState<IStaffCourse[]>([]);
     const [staffResearch, setStaffResearch] = useState<IStaffResearch[]>([]);
     const [staffOutreach, setStaffOutreach] = useState<IStaffResearch[]>([]);
+    const [staffWorkloads, setStaffWorkloads] = useState<IStaffResearch[]>([]);
     const [researchToDownload, setResearchToDownload] = useState<IStaffResearch>();
 
     //----   COMPONENT DID MOUND   ----
@@ -27,6 +28,7 @@ const DeanHome = (props: IProps) => {
         getUnapprovedAllocations();
         getUnapprovedResearch();
         getUnapprovedOutreach();
+        getUnapprovedWorkload();
     }, []);
 
     //----   GET STAFF COURSES   ----
@@ -65,6 +67,19 @@ const DeanHome = (props: IProps) => {
             return;
         }
         setStaffOutreach(result.data);
+        console.log(result.data);
+    }
+
+    //----   GET STAFF WORKLOADS   ----
+    const getUnapprovedWorkload = async () => {
+        setLoading(true);
+        let result: IResponse = await Connection.getRequest(GET_ENDPOINT.GET_ALL_UNAPPROVED_WORKLOAD_SHEETS, "");
+        setLoading(false);
+        if (result.errorMessage.length > 0) {
+            errorToast(result.errorMessage, true);
+            return;
+        }
+        setStaffWorkloads(result.data);
         console.log(result.data);
     }
 
@@ -112,6 +127,20 @@ const DeanHome = (props: IProps) => {
         getUnapprovedOutreach();
     }
 
+    //----   ON WORKLOAD DELETE   ----
+    const onWorkloadDelete = async (data: IStaffResearch) => {
+        setLoading(true);
+        let qry = DELETE_ENDPOINT.DELETE_WORKLOAD_SHEET.toString();
+        qry = qry.replace("{sheetId}", data.Id.toString());
+        let result: IResponse = await Connection.delRequest(qry);
+        setLoading(false);
+        if (result.errorMessage.length > 0) {
+            errorToast(result.errorMessage, true);
+            return;
+        }
+        getUnapprovedWorkload();
+    }
+
     //----   ON ALLOCATION APPROVE   ----
     const onAllocationApprove = async (data: IStaffCourse) => {
         setLoading(true);
@@ -154,6 +183,21 @@ const DeanHome = (props: IProps) => {
             return;
         }
         getUnapprovedOutreach();
+    }
+
+    //----   ON WORKLOAD APPROVE   ----
+    const onWorkloadApprove = async (data: IStaffResearch) => {
+        setLoading(true);
+        console.log(data);
+        let qry = GET_ENDPOINT.APPROVE_WORKLOAD_SHEET.toString();
+        qry = qry.replace("{sheetId}", data.Id.toString());
+        let result: IResponse = await Connection.getRequest(qry, "");
+        setLoading(false);
+        if (result.errorMessage.length > 0) {
+            errorToast(result.errorMessage, true);
+            return;
+        }
+        getUnapprovedWorkload();
     }
 
     return (
@@ -231,6 +275,32 @@ const DeanHome = (props: IProps) => {
                     loading={loading}
                     onReject={onOutreachDelete}
                     onApprove={onOutreachApprove}
+                    onDownload={(file: IStaffResearch) => setResearchToDownload(file)}
+                />
+            </div>
+            <div className="dean-dashboard-card-small shadow">
+                <TableComponent
+                    title="Approve Workloads"
+                    context={props.context}
+
+                    ids={[...staffWorkloads]}
+                    headerValues={["Staff", "Name"]}
+                    data={
+                        staffWorkloads.map((workload, index) => {
+                            let colVals: IColumnData[] = [
+                                { type: TABLE_DATA_TYPE.STRING, value: `${workload.Staff.First_Name} ${workload.Staff.Last_Name}` },
+                                { type: TABLE_DATA_TYPE.STRING, value: workload.Name },
+                            ];
+
+                            return {
+                                colValues: colVals
+                            }
+                        })
+                    }
+
+                    loading={loading}
+                    onReject={onWorkloadDelete}
+                    onApprove={onWorkloadApprove}
                     onDownload={(file: IStaffResearch) => setResearchToDownload(file)}
                 />
             </div>

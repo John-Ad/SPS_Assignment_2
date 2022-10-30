@@ -1,4 +1,6 @@
-body {}
+body {
+  background-color: #eeeeee;
+}
 
 .App {
   position: relative;
@@ -7,6 +9,7 @@ body {}
   min-height: 100vh;
   height: fit-content;
   padding-bottom: 125px;
+  background-color: #eeeeee;
 }
 
 .App-logo {
